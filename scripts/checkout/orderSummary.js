@@ -6,6 +6,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -108,8 +109,9 @@ export function renderOrderSummary() {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-      const containerItem = document.querySelector(".js-cart-item-container");
-      containerItem.remove();
+      const container = document.querySelector(".js-cart-item-container");
+      container.remove();
+      renderPaymentSummary();
     });
   });
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
@@ -117,6 +119,7 @@ export function renderOrderSummary() {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
